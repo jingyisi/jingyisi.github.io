@@ -1,0 +1,24 @@
+name: Sync from Gitee
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # 每天早上6点自动同步
+  workflow_dispatch:     # 也可以手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub Repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync from Gitee
+        uses: wearerequired/git-mirror-action@master
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_TOKEN }}
+        with:
+          source_repo: "https://gitee.com/jingyisi/jingyisi-my-project.git"
+          target_repo: "https://github.com/jingyisi/jingyisi_gitee_and_github.git"
