@@ -11,18 +11,19 @@ jobs:
  
     steps:
       # 第一步：从 Gitee 拉取代码
+      # 注意：这里升级到了 @v5，适配最新的 GitHub 环境
       - name: Checkout code from Gitee
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
-          repository: 'jingyisi/jingyisi-my-project' # 确保这是 Gitee 的用户名/仓库名
+          repository: 'jingyisi/jingyisi-my-project' # 你的 Gitee 用户名/仓库名
           token: ${{ secrets.GITEE_TOKEN }}
-          fetch-depth: 0
+          fetch-depth: 0 # 获取所有历史记录
 
-      # 第二步：推送到 GitHub（使用官方推荐的标准方式）
+      # 第二步：推送到 GitHub
+      # 我们不再使用老旧的第三方插件，而是直接用 Git 命令推送，最稳定！
       - name: Push to GitHub
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          # 强制推送到 GitHub，使用 GitHub 自动提供的令牌
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jingyisi/jingyisi_gitee_and_github.git --force --all
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jingyisi/jingyisi_gitee_and_github.git --force --tags
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin HEAD:main --force
