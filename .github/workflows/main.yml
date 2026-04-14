@@ -20,5 +20,6 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.GITEE_TOKEN }}
         with:
-          source_repo: "https://gitee.com/jingyisi/jingyisi-my-project.git"
-          target_repo: "https://github.com/jingyisi/jingyisi_gitee_and_github.git"
+                source-repo: 'git@gitee.com:jingyisi/jingyisi-my-project.git'  
+                destination-repo: 'git@github.com:jingyisi/jingyisi_gitee_and_github.git'
+                ssh-private-key: ${{ secrets.GITEE_TOKEN }}
